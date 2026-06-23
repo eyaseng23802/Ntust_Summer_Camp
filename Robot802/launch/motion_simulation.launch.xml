@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Target your explicit robot802 model description -->
+  <let name="urdf_file" value="$(find-pkg-share Robot802)/urdf/robot802.urdf" />
+
+  <!-- Node 1: Robot State Publisher -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" name="robot_state_publisher">
+    <param name="robot_description" value="$(file-content $(var urdf_file))" type="str" />
+  </node>
+
+  <!-- Node 2: Your Custom Python Auto-Trajectory Generator Node -->
+  <node pkg="robot_motion" exec="trajectory_generator" name="trajectory_generator" />
+
+  <!-- Node 3: RViz2 utilizing your pre-saved configuration layout -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" args="-d $(find-pkg-share Robot802)/config/config.rviz" />
+</launch>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Define the launch variable targeting your renamed URDF file -->
+  <let name="urdf_file" value="$(find-pkg-share Robot802)/urdf/robot802.urdf" />
+
+  <!-- Node 1: robot_state_publisher to parse the URDF -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" name="robot_state_publisher">
+    <param name="robot_description" value="$(file-content $(var urdf_file))" type="str" />
+  </node>
+
+  <!-- Node 2: joint_state_publisher_gui for the slider interface -->
+  <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui" name="joint_state_publisher_gui" />
+
+  <!-- Node 3: rviz2 for visualization -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" args="-d $(find-pkg-share Robot802)/config/config.rviz" />
+</launch>
+
